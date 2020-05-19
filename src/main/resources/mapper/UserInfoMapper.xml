@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yyn.VideoLibrary.dao.UserInfoDao">
+
+    <select id="findUserByUserName" parameterType="String" resultType="cn.yyn.VideoLibrary.bean.UserInfo">
+        select * from vl_user where username=#{username}
+    </select>
+
+    <insert id="addUserInfo" parameterType="cn.yyn.VideoLibrary.bean.UserInfo">
+        INSERT INTO vl_user(username,password,username,name,sex,true_name)
+        VALUE(#{username},#{password},#{name},#{sex},#{truename})
+    </insert>
+
+</mapper>
