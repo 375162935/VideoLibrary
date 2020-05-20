@@ -28,6 +28,7 @@ public class UserInfoController {
     public String Login(@Param("username") String username,
                         @Param("password") String password,
                         HttpSession session) {
+        System.out.println("进入controller");
         JSONObject jsonObject = new JSONObject();
         UserInfo userInfo = userService.findUserByUserName(username);
         if (userInfo == null) {

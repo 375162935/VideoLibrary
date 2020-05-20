@@ -58,17 +58,18 @@
         $(".submit").on("click", function () {
             var username = $("input[name=username]").val();
             var password = $("input[name=password]").val();
-            var code;
+            // var code;
             if (username == "") {
-                alert("请输入账号")
+                alert("请输入账号");
                 return;
             }
             if (password == "") {
-                alert("请输入密码")
+                alert("请输入密码");
+                return;
             }
-            if (code == "") {
-
-            }
+            // if (code == "") {
+            //
+            // }
             $.ajax({
                 url: "${pageContext.request.contextPath}/user/login.do",
                 type: "post",
@@ -83,14 +84,24 @@
                     } else if (data.result == "1") {
                         alert("密码输入错误")
                     } else {
-                        alert(data)
-                        window.location.href = "${pageContext.request.contextPath}/web/main.jsp";
+                        alert(data);
                         // $('form').fadeOut(500);
                         // $('.wrapper').addClass('form-success');
                         // $('#submit-form').submit();
+                        window.location.href = '${pageContext.request.contextPath}/web/main.jsp';
                     }
                 }, error: function (data) {
-                    alert(data)
+                    if (data.result == "0") {
+                        alert("账号不纯在")
+                    } else if (data.result == "1") {
+                        alert("密码输入错误")
+                    } else {
+                        alert(data)
+                        // $('form').fadeOut(500);
+                        // $('.wrapper').addClass('form-success');
+                        // $('#submit-form').submit();
+                        window.location.href = '${pageContext.request.contextPath}/web/main.jsp';
+                    }
                 }
             })
         })
