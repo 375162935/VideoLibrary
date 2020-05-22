@@ -39,42 +39,49 @@ public class UserInfoController {
             jsonObject.put("result", "1");
         } else {
             System.out.println("登陆成功");
-            jsonObject.put("result", "2");
-            session.setAttribute("user",userInfo);
+            jsonObject.put("result", username);
+            session.setAttribute("user", userInfo);
         }
-        System.out.println(jsonObject.toString());
+        String json = jsonObject.toString();
+        System.out.println(json);
         return jsonObject.toString();
     }
 
+    @ResponseBody
     @RequestMapping("/register.do")
-    public ModelAndView register(UserInfo userInfo) {
-        ModelAndView mv = new ModelAndView();
-        UserInfo user = userService.findUserByUserName(userInfo.getUsername());
-        if (user != null) {
-            int i = userService.addUserInfo(userInfo);
-            if (i > 0) {
-                System.out.println("添加成功");
-                mv.addObject("userInfo", userInfo);
-                mv.setViewName("login");
-            } else {
-                System.out.println("添加失败");
-                mv.addObject("error", "添加失败");
-                mv.setViewName("register");
-            }
+    public String register(@Param("username") String username,
+                           @Param("password") String password,
+                           @Param("name") String name,
+                           @Param("sex") int sex,
+                           @Param("trueName") String trueName) {
+        JSONObject jsonObject = new JSONObject();
+        UserInfo userInfo = userService.findUserByUserName(username);
+        if (userInfo == null) {
+            userInfo=new UserInfo();
+            userInfo.setUsername(username);
+            userInfo.setPassword(password);
+            userInfo.setName(name);
+            userInfo.setSex(sex);
+            userInfo.setTrueName(trueName);
+            System.out.println(userInfo);
+            this.userService.addUserInfo(userInfo);
+            System.out.println("添加成功");
+            jsonObject.put("result", username);
         } else {
-            mv.addObject("errors", "账号已注册");
-            mv.setViewName("register");
+            System.out.println("账号已存在");
+            jsonObject.put("result", "0");
         }
-        return mv;
+        return jsonObject.toString();
     }
+
 
     @RequestMapping("/exit.do")
     public String exit(HttpSession session) {
         try {
-            session.removeAttribute("userInfo");
+            session.removeAttribute("user");
         } catch (Exception e) {
 
         }
-        return "redirect:../index";
+        return "redirect:/";
     }
 }

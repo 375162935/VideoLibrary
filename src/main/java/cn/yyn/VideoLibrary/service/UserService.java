@@ -11,6 +11,6 @@ public interface UserService {
 
     UserInfo findUserByUserName(String username);
 
-    int addUserInfo(UserInfo userInfo);
+    void addUserInfo(UserInfo userInfo);
 
 }

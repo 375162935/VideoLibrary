@@ -7,9 +7,9 @@
         select * from vl_user where username=#{username}
     </select>
 
-    <insert id="addUserInfo" parameterType="cn.yyn.VideoLibrary.bean.UserInfo">
-        INSERT INTO vl_user(username,password,username,name,sex,true_name)
-        VALUE(#{username},#{password},#{name},#{sex},#{truename})
+    <insert id="addUserInfo" parameterType="cn.yyn.VideoLibrary.bean.UserInfo" >
+        INSERT INTO vl_user(username,password,name,sex,truename)
+        VALUE(#{username},#{password},#{name},#{sex},#{trueName})
     </insert>
 
 </mapper>

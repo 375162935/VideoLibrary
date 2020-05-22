@@ -13,5 +13,5 @@ import java.util.List;
 public interface UserInfoDao {
     UserInfo findUserByUserName(String username);
 
-    int addUserInfo(UserInfo userInfo);
+    void addUserInfo(UserInfo userInfo);
 }
