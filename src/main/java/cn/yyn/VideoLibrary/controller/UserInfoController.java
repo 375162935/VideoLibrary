@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * @author 杨以诺
@@ -48,6 +50,19 @@ public class UserInfoController {
     }
 
     @ResponseBody
+    @RequestMapping("/register_username.do")
+    public String register_username(String username, HttpServletResponse response) throws IOException {
+        JSONObject jsonObject=new JSONObject();
+        UserInfo userInfo = userService.findUserByUserName(username);
+        if (userInfo == null) {
+            jsonObject.put("result","1");
+        } else {
+            jsonObject.put("result","2");
+        }
+        return jsonObject.toString();
+    }
+
+    @ResponseBody
     @RequestMapping("/register.do")
     public String register(@Param("username") String username,
                            @Param("password") String password,
@@ -57,7 +72,7 @@ public class UserInfoController {
         JSONObject jsonObject = new JSONObject();
         UserInfo userInfo = userService.findUserByUserName(username);
         if (userInfo == null) {
-            userInfo=new UserInfo();
+            userInfo = new UserInfo();
             userInfo.setUsername(username);
             userInfo.setPassword(password);
             userInfo.setName(name);

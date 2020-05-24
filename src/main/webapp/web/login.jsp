@@ -16,6 +16,23 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login-styles.css">
     <script src="${pageContext.request.contextPath}/js/jquery-2.1.1.min.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/jquery1.8.1.js" type="text/javascript"></script>
+    <style>
+        .form-div span {
+            width: 80px;
+            display: inline-block;
+        }
+        .form-div input {
+            display: inline-block;
+        }
+        .error-span {
+            position: absolute;
+            right: 30px;
+            top: 10px;
+            font-size: 13px;
+            display: none;
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <div class="htmleaf-container">
@@ -24,8 +41,18 @@
             <h1>Welcome</h1>
 
             <form action="" class="form" id="submit-form" method="post">
-                <input type="text" placeholder="username" name="username" value="${userInfo.username}">
-                <input type="password" placeholder="password" name="password" value="${userInfo.password}">
+                <div class="form-div" style="position: relative">
+                    <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
+                    <input type="text" placeholder="请输入您的账号" name="username" value="${userInfo.username}">
+                </div>
+                <div class="form-div" style="position: relative">
+                    <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
+                    <input type="text" placeholder="请输入您的密码" name="password" value="${userInfo.password}">
+                </div>
+<%--                <div class="form-div" style="position: relative">--%>
+<%--                    <span>验&nbsp;&nbsp;证&nbsp;&nbsp;码:</span>--%>
+<%--                    <input type="text" placeholder="请输入验证码" name="password" value="${userInfo.password}">--%>
+<%--                </div>--%>
                 <button type="button" class="submit" id="login-button">登录</button>
                 <button type="button" onclick="register()">注册</button>
             </form>
@@ -52,15 +79,35 @@
     }
 
     $(function () {
+        var $username = $("input[name=username]");
+        var $password = $("input[name=password]");
+        var username_status=true;
+        var password_status=true;
+        $username.blur(function () {
+            $username.next("span").remove();
+            if ($username.val() == "") {
+                $username.after("<span class='error-span'>账号不能为空</span>")
+            }else {
+                username_status=false;
+            }
+        })
+        $password.blur(function () {
+            $password.next("span").remove();
+            if ($password.val() == "") {
+                $password.after("<span class='error-span'>密码不能为空</span>")
+            }else {
+                password_status=false;
+            }
+        })
         $(".submit").on("click", function () {
-            var username = $("input[name=username]").val();
-            var password = $("input[name=password]").val();
+            var username = $username.val();
+            var password = $password.val();
             var code;
-            if (username == "") {
+            if (username_status) {
                 alert("请输入账号");
                 return;
             }
-            if (password == "") {
+            if (password_status) {
                 alert("请输入密码");
                 return;
             } else {
